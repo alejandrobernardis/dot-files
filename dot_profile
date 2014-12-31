@@ -1,0 +1,214 @@
+#!/bin/bash
+
+# colours & history
+export CLICOLOR=1
+export LSCOLORS=excxFxFxBxxfxfxBxBxexe
+export PS1="\[\033[33m\]\W $:\[\033[0m\] "
+export HISTCONTROL=ignoredups:ignorespace
+export HISTSIZE=5000
+export HISTFILESIZE=1000
+export HISTIGNORE="ls:cd:[bf]g:exit:..:...:....:ep:rp:l:l.:ll:la:h:o:p:op:history"
+
+# alias
+alias edit-profile='mate ~/.profile'
+alias ep='mate ~/.profile'
+alias reload-profile='. ~/.profile'
+alias rp='. ~/.profile'
+alias l='ls -l'
+alias l.='ls -d .*'
+alias ll='ls -Al'
+alias la='ls -A'
+alias untar='tar xvfz'
+alias h='cd ~'
+alias o='open .'
+alias m='mate .'
+alias p='cd /Volumes/Projects'
+alias op='open /Volumes/Projects'
+alias s='cd /Volumes/Projects/source'
+alias so='open /Volumes/Projects/source'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias rmpyc='find . -name "*.pyc" -exec rm -rf {} \;'
+alias rmpyo='find . -name "*.pyo" -exec rm -rf {} \;'
+alias rmpyca='find . -name "__pycache__" -exec rm -rf {} \;'
+alias rmsvn='find . -name ".svn" -exec rm -rf {} \;'
+alias rmdot='find . -name ".*" -exec rm -rf {} \;'
+alias vdot='find . -name ".*"'
+alias rmdss='find . -name ".DS_Store" -exec rm -rf {} \;'
+alias rmxattr='sudo xattr -d -r com.apple.quarantine *'
+alias show-all='defaults write com.apple.finder AppleShowAllFiles TRUE; killall Finder;'
+alias hide-all='defaults write com.apple.finder AppleShowAllFiles FALSE; killall Finder;'
+alias ftp-start='sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist;'
+alias ftp-stop='sudo -s launchctl unload -w /System/Library/LaunchDaemons/ftp.plist;'
+alias psmem='ps aux | sort -nr -k 4'
+alias psmem10='ps aux | sort -nr -k 4 | head -10'
+alias pscpu='ps aux | sort -nr -k 3'
+alias pscpu10='ps aux | sort -nr -k 3 | head -10'
+alias df='df -H'
+alias du='du -ch'
+alias vips='ifconfig | grep inet | awk "{ print \$2 }"'
+alias g8password='openssl rand -base64 8'
+alias g16password='openssl rand -base64 16'
+alias g32password='openssl rand -base64 32'
+alias g48password='openssl rand -base64 48'
+alias g741password='openssl rand -base64 741'
+alias gp8='gpass -a sha1,sha256 -l 8 -c -v'
+alias gp16='gpass -a sha1,sha256 -l 16 -c -v'
+alias gp32='gpass -a sha1,sha256 -l 32 -c -v'
+alias gp64='gpass -a sha1,sha256 -l 64 -c -v'
+alias gp128='gpass -a sha1,sha256 -l 128 -c -v'
+
+# git
+alias gits='git status'
+alias gitl='git log'
+alias gita='git add .'
+alias gitc='git commit -m'
+alias gitp='git push'
+alias gitpom="git push origin master"
+alias gitpg="git add . && git commit -m 'FIX // Update' && git push"
+alias gitco='git checkout'
+alias gitpl='git pull'
+alias gitplom="git pull origin master"
+alias gitb='git branch'
+alias gitba='git branch -a'
+alias gitbd='git branch -d'
+alias gitlo='git log --pretty="[%C(blue)%h, %ae%C(reset)]: %C(green)%cr%C(reset) %s"'
+alias gith=git_help
+
+function git-config() {
+  git config --global user.name "Alejandro M. Bernardis"
+  git config --global user.email alejandro.m.bernardis@gmail.com
+}
+
+function git-help(){
+  echo 'gits => git status'
+  echo 'gitl => git log'
+  echo 'gita => git add .'
+  echo 'gitc => git commit -m'
+  echo 'gitp => git push'
+  echo 'gitpom => git push origin master'
+  echo "gitpg => git add . && git commit -m 'FIX // Update' && git push"
+  echo 'gitco => git checkout'
+  echo 'gitpl => git pull'
+  echo 'gitplom => git pull origin master'
+  echo 'gitb => git branch'
+  echo 'gitba => git branch -a'
+  echo 'gitbd => git branch -d'
+  echo 'gitlo => git log --pretty="[%C(blue)%h, %ae%C(reset)]: %C(green)%cr%C(reset) %s"'
+}
+
+# python
+alias py=/usr/local/bin/python
+alias pyt='python -m cProfile'
+alias pypkg='cd /Library/Python/2.7/site-packages'
+alias pysmtp='python -m smtpd -n -c DebuggingServer localhost:8025'
+alias pyserver='python -m SimpleHTTPServer'
+alias pyb='python setup.py build'
+
+# projects
+function init-wo(){
+  mkdir -p ./{data,assets,binary,documents,library,tests}
+  touch .gitignore \
+      fabfile.py \
+      readme.md \
+      authors.md \
+      changelog.md \
+      license.md \
+      ./data/readme.md \
+      ./assets/readme.md \
+      ./binary/readme.md \
+      ./documents/readme.md \
+      ./library/readme.md \
+      ./tests/readme.md
+}
+
+function init(){
+  init_wo
+  git add .
+  git commit -m 'INIT // Estructura'
+  git push origin master
+}
+
+# memcached
+MEMCACHED_URI="localhost"
+MEMCACHED_TOOLS=/Volumes/Projects/software/scripts/bin/memcached-tool
+alias mc-reset="echo 'flush_all' | nc ${MEMCACHED_URI} 11211"
+alias mc-display="${MEMCACHED_TOOLS} ${MEMCACHED_URI}:11211 display"
+alias mc-stats="${MEMCACHED_TOOLS} ${MEMCACHED_URI}:11211 stats"
+alias mc-dump="${MEMCACHED_TOOLS} ${MEMCACHED_URI}:11211 dump"
+alias mc-settings="${MEMCACHED_TOOLS} ${MEMCACHED_URI}:11211 settings"
+alias mc-sizes="${MEMCACHED_TOOLS} ${MEMCACHED_URI}:11211 sizes"
+
+#redis
+REDIS_CURRENT='2.8.19'
+REDIS_HOME=/Volumes/Projects/software/redis/${REDIS_CURRENT}
+
+# mongdb
+MONGO_CURRENT='2.6.6'
+MONGO_HOME=/Volumes/Projects/software/mongodb/${MONGO_CURRENT}
+
+# rabbitmq
+RABBITMQ_CURRENT='3.4.2'
+RABBITMQ_HOME=/Volumes/Projects/software/rabbitmq/${RABBITMQ_CURRENT}
+SYS_PREFIX=${RABBITMQ_HOME}
+
+# databases
+alias rd="redis-server ${REDIS_HOME}/bin/config.conf --loglevel debug"
+alias mc='memcached -d -m 64; ps -A'
+alias mg='mongod --port 27017 --bind_ip 127.0.0.1 --dbpath /Volumes/Projects/data/db/default/ --pidfilepath /Volumes/Projects/data/db/default/default.pid --logpath /Volumes/Projects/data/db/default/default.log --oplogSize 128 --logappend --fork --journal --smallfiles'
+alias rmq='sudo rabbitmq-server -detached'
+alias db-all='mc && mg && rmq'
+alias db-ps='ps -A | grep -i -e rabbitmq -e mongod -e memcached'
+
+# services
+alias init-db='mc && mg'
+alias init-queue='rmq'
+alias init-all='init-db && init-queue'
+
+# paths
+export CC=gcc
+export CXX=g++
+export FFLAGS=ff2c
+export GOPATH=/Volumes/Projects/source_go
+export GOROOT=/Volumes/Projects/software/go/1.4.0
+export RUST_HOME=/Volumes/Projects/software/rust/0.12.0
+export LIBMEMCACHED=/usr/local/include
+export PYTHONPATH=/Volumes/Projects/library/python/2.7
+export PATH=${PATH}:${RABBITMQ_HOME}/sbin:${MONGO_HOME}/bin:${REDIS_HOME}/bin:${GOROOT}/bin:${RUST_HOME}/bin:/Volumes/Projects/software/scripts/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/heroku/bin
+
+# fixes
+function pyfix() {
+  sudo easy_install pip
+  sudo pip install paramiko==1.13
+  sudo pip install fabric celery virtualenv
+}
+
+function dbfix(){
+  sudo mkdir -p /Volumes/Projects/data/db/default/
+  sudo mkdir -p /Volumes/Projects/data/kv/default/
+  sudo chmod -R 777 /Volumes/Projects/data/*
+}
+
+function rmqfix(){
+  rabbitmqctl delete_user celery
+  rabbitmqctl add_user celery celery
+  rabbitmqctl set_permissions -p / celery ".*" ".*" ".*"
+}
+
+function colors(){
+  echo -e "\033[0mCOLOR_NC (No color)"
+  echo -e "\033[1;37mCOLOR_WHITE\t\033[0;30mCOLOR_BLACK"
+  echo -e "\033[0;34mCOLOR_BLUE\t\033[1;34mCOLOR_LIGHT_BLUE"
+  echo -e "\033[0;32mCOLOR_GREEN\t\033[1;32mCOLOR_LIGHT_GREEN"
+  echo -e "\033[0;36mCOLOR_CYAN\t\033[1;36mCOLOR_LIGHT_CYAN"
+  echo -e "\033[0;31mCOLOR_RED\t\033[1;31mCOLOR_LIGHT_RED"
+  echo -e "\033[0;35mCOLOR_PURPLE\t\033[1;35mCOLOR_LIGHT_PURPLE"
+  echo -e "\033[0;33mCOLOR_YELLOW\t\033[1;33mCOLOR_LIGHT_YELLOW"
+  echo -e "\033[1;30mCOLOR_GRAY\t\033[0;37mCOLOR_LIGHT_GRAY"
+}
+
+# Kivy
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+

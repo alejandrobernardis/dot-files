@@ -1,0 +1,218 @@
+"
+" .vimrc
+"
+" Tabs and Spaces
+set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set backspace=indent,eol,start
+set expandtab
+set autoindent
+set smartindent
+set smarttab
+
+" Misc
+set number
+set ruler
+set showmatch
+set wildmenu
+set wildmode=list,full
+set nowrap
+set hidden
+set modeline
+set hlsearch
+set incsearch
+set autoread                        " auto-reload modified files (with no local changes)
+set nocompatible                    " don't try to be compatible with vi
+set ignorecase                      " ignore case in search
+set smartcase                       " override ignorecase if uppercase is used in search string
+set report=0                        " report all changes
+set laststatus=2                    " always show status-line
+set nocursorline                    " highlight current line
+set scrolloff=4
+set nofoldenable
+set timeoutlen=200                  " set timeout between key sequences
+set encoding=utf-8
+" set background=dark
+set mouse=vin                       " Enable mouse in insert and normal mode
+set directory=~/tmp,/var/tmp,/tmp,. " Keep swap files in one of these 
+set wmh=0                           " Minimum window height = 0
+set showcmd
+set display+=lastline
+
+" Directories
+set directory=~/.vim/dirs/tmp
+set backup
+set backupdir=~/.vim/dirs/backups
+
+if !isdirectory(expand('~/.vim/dirs/tmp', 1))
+  silent call mkdir(expand('~/.vim/dirs/tmp', 1), 'p')
+endif
+
+if !isdirectory(expand('~/.vim/dirs/backups', 1))
+  silent call mkdir(expand('~/.vim/dirs/backups', 1), 'p')
+endif
+
+" Chars
+nmap <leader>l :set list!<CR>
+set listchars=tab:▸\ ,eol:¬
+
+" Quit
+nmap Q q
+
+" Remove trailing whitespace
+function! StripTrailingWhitespace()
+    if !&binary && &filetype != 'diff'
+        normal mz
+        normal Hmy
+        %s/\s\+$//e
+        normal 'yz<cr>
+        normal `z
+        retab
+    endif
+endfunction
+nmap <leader>tW :cal StripTrailingWhitespace()<cr>
+
+" Map Ctrl+V to paste in Insert mode
+imap <C-V> <C-R>*
+
+" Map Ctrl+C to copy in Visual mode
+vmap <C-C> "+y
+
+" Add paste shortcut
+nmap <leader>P "+p
+
+" Ignore some defaults
+" set wildignore=*.o,*.obj,*~,*.pyc
+" set wildignore+=.env
+" set wildignore+=.env[0-9]+
+" set wildignore+=.git,.gitkeep
+" set wildignore+=.tmp
+" set wildignore+=.coverage
+" set wildignore+=*DS_Store*
+" set wildignore+=.sass-cache/
+" set wildignore+=__pycache__/
+" set wildignore+=vendor/rails/**
+" set wildignore+=vendor/cache/**
+" set wildignore+=*.gem
+" set wildignore+=log/**
+" set wildignore+=tmp/**
+" set wildignore+=.tox/**
+" set wildignore+=.idea/**
+" set wildignore+=*.egg,*.egg-info
+" set wildignore+=*.png,*.jpg,*.gif
+" set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
+" set wildignore+=*/.nx/**,*.app
+
+" Per file-type indentation
+autocmd BufEnter *.hs  set softtabstop=4|set shiftwidth=4
+autocmd BufEnter *.js  set softtabstop=4|set shiftwidth=4
+autocmd BufEnter *.go  set tabstop=4|set shiftwidth=4|set noexpandtab
+autocmd BufEnter *.c   set shiftwidth=4|set noexpandtab
+autocmd BufEnter *.h   set shiftwidth=4|set noexpandtab
+autocmd BufEnter *.lua set shiftwidth=2|set expandtab
+autocmd BufEnter *.erl set softtabstop=4|set shiftwidth=4
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=80
+
+" File-type
+filetype on
+filetype plugin on
+filetype indent on
+
+" Easy command mode switch
+inoremap kj <Esc>
+inoremap <C-l> <C-x><C-l>
+noremap <C-j> }
+noremap <C-k> {
+
+" Move easily between ^ and $
+noremap <C-h> ^
+noremap <C-l> $
+noremap j gj
+noremap k gk
+
+" \m to make
+map <Leader>m :make<Return>
+
+" Syntax coloring
+syntax on
+set t_Co=256
+set t_AB=[48;5;%dm
+set t_AF=[38;5;%dm
+
+function! CleverTab()
+  if strpart(getline('.'), 0, col('.')-1) =~ '^\s*$'
+    return "\<Tab>"
+  else
+    return "\<C-N>"
+  endif
+endfunction
+inoremap <Tab> <C-R>=CleverTab()<CR>
+
+" Set tabstop, softtabstop and shiftwidth to the same value
+command! -nargs=* Stab call Stab()
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
+
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
+endfunction
+
+" *** PLUGINS ******************************************************************
+
+execute pathogen#infect('~/.vim/bundle/{}')
+
+" NERDTree
+map <F3> :NERDTreeToggle<CR>
+nmap ,t :NERDTreeFind<CR>
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+" AirLine
+let g:airline_theme = 'light'
+let g:airline_enable_branch = 1
+let g:airline_enable_syntastic = 1
+let g:airline_powerline_fonts = 0
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#checks = []
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" GitGutter
+let g:gitgutter_enabled = 1
+
+" Fugitive mapping
+" nmap <leader>gb :Gblame<cr>
+" nmap <leader>gc :Gcommit<cr>
+" nmap <leader>gd :Gdiff<cr>
+" nmap <leader>gg :Ggrep
+" nmap <leader>gl :Glog<cr>
+" nmap <leader>gp :Git pull<cr>
+" nmap <leader>gP :Git push<cr>
+" nmap <leader>gs :Gstatus<cr>
+" nmap <leader>gw :Gbrowse<cr>
+
+" Color Schema
+set background=light
+let base16colorspace=256
+" colorscheme base16-ocean

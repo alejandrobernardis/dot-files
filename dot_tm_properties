@@ -1,0 +1,28 @@
+# Settings
+
+fontName = "Ubuntu Mono"
+fontSize = 12
+softWrap = false
+softTabs = true
+tabSize = 2
+showInvisibles = true
+wrapColumn = 80
+showWrapColumn = true
+fileBrowserGlob = "{*,.*}"
+include = "{$include,.*}"
+exclude = "{$exclude,.DS_*}"
+
+# Variables
+
+TM_FULLNAME = "Alejandro M. Bernardis"
+TM_ORGANIZATION = "Asumi Kamikaze"
+TM_GIT = "/usr/bin/git"
+PATH = "$PATH:$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/texbin"
+PYTHONPATH = "$PYTHONPATH:/Volumes/Projects/library/python/2.7:/Library/Frameworks/Python.framework/Versions/2.7/lib/python27.zip:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-old:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages:/Library/Python/2.7/site-packages"
+
+# Languages
+
+[ source.python ]
+softTabs = true
+tabSize = 4
+

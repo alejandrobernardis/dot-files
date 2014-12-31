@@ -1,0 +1,76 @@
+[core]
+  excludesfile = /Users/bernardisa/.gitignore_global
+
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
+  
+[user]
+  name = Alejandro M. Bernardis
+  email = alejandro.m.bernardis@gmail.com
+  editor = vim
+
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow
+  frag = magenta
+  old = red
+  new = green
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[alias]
+  c = commit
+  s = status -sb
+  sh = show
+  sl = shortlog
+  sm = submodule
+  st = stash
+  un = !git unstage
+  a = add
+  aa = add --all
+  ap = add --patch
+  b = branch
+  f = fetch
+  fa = fetch --all
+  co = checkout
+  p = pull
+  r = remote
+  rb = rebase
+  rba = rebase --abort
+  rbc = rebase --continue
+  rbi = rebase --interactive
+  rbs = rebase --skip
+  rf = reflog
+  rs = reset
+  rv = revert
+  lg = log -p
+  ls = ls-files
+  log = log --stat
+  lolo = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  sync = !git pull && git push
+  unstage = reset HEAD
+  master = checkout master
+  develop = checkout develop
+  pu = !git push -u origin `git rev-parse --abbrev-ref HEAD`
+
+[filter "media"]
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
+
+[mergetool]
+  keepBackup = true
