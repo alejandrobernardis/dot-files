@@ -12,6 +12,7 @@ export HISTIGNORE="ls:cd:[bf]g:exit:..:...:....:ep:rp:l:l.:ll:la:h:o:p:op:histor
 # alias
 alias edit-profile='mate ~/.profile'
 alias ep='mate ~/.profile'
+alias vep='vim ~/.profile'
 alias reload-profile='. ~/.profile'
 alias rp='. ~/.profile'
 alias l='ls -l'
@@ -105,6 +106,9 @@ alias pypkg='cd /Library/Python/2.7/site-packages'
 alias pysmtp='python -m smtpd -n -c DebuggingServer localhost:8025'
 alias pyserver='python -m SimpleHTTPServer'
 alias pyb='python setup.py build'
+alias pyi='python setup.py install'
+alias pysd='python setup.py sdist'
+alias pybd='python setup.py bdist'
 
 # projects
 function init-wo(){
@@ -170,12 +174,11 @@ alias init-all='init-db && init-queue'
 export CC=gcc
 export CXX=g++
 export FFLAGS=ff2c
-export GOPATH=/Volumes/Projects/source_go
+export GOPATH=/Volumes/Projects/library/go
 export GOROOT=/Volumes/Projects/software/go/1.4.0
-export RUST_HOME=/Volumes/Projects/software/rust/0.12.0
 export LIBMEMCACHED=/usr/local/include
 export PYTHONPATH=/Volumes/Projects/library/python/2.7
-export PATH=${PATH}:${RABBITMQ_HOME}/sbin:${MONGO_HOME}/bin:${REDIS_HOME}/bin:${GOROOT}/bin:${RUST_HOME}/bin:/Volumes/Projects/software/scripts/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/heroku/bin
+export PATH=${PATH}:${RABBITMQ_HOME}/sbin:${MONGO_HOME}/bin:${REDIS_HOME}/bin:${GOROOT}/bin:${RUST_HOME}/bin:/Volumes/Projects/software/scripts/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/heroku/bin:/Volumes/Projects/library/python/2.7-scripts
 
 # fixes
 function pyfix() {
@@ -196,6 +199,13 @@ function rmqfix(){
   rabbitmqctl set_permissions -p / celery ".*" ".*" ".*"
 }
 
+function hostsfix() {
+  echo "127.0.0.1    domain.local" >> /etc/hosts
+  echo "127.0.0.1    short.local" >> /etc/hosts
+  echo "127.0.0.1    localhost.local" >> /etc/hosts
+  echo "127.0.0.1    api.local" >> /etc/hosts
+}
+
 function colors(){
   echo -e "\033[0mCOLOR_NC (No color)"
   echo -e "\033[1;37mCOLOR_WHITE\t\033[0;30mCOLOR_BLACK"
@@ -212,3 +222,4 @@ function colors(){
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+alias local='/usr/bin/open -a /Applications/Google\ Chrome.app http://localhost:8000'
