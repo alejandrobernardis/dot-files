@@ -199,13 +199,6 @@ function rmqfix(){
   rabbitmqctl set_permissions -p / celery ".*" ".*" ".*"
 }
 
-function hostsfix() {
-  echo "127.0.0.1    domain.local" >> /etc/hosts
-  echo "127.0.0.1    short.local" >> /etc/hosts
-  echo "127.0.0.1    localhost.local" >> /etc/hosts
-  echo "127.0.0.1    api.local" >> /etc/hosts
-}
-
 function colors(){
   echo -e "\033[0mCOLOR_NC (No color)"
   echo -e "\033[1;37mCOLOR_WHITE\t\033[0;30mCOLOR_BLACK"
@@ -222,4 +215,12 @@ function colors(){
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+# localhost
 alias local='/usr/bin/open -a /Applications/Google\ Chrome.app http://localhost:8000'
+
+# inet
+function inetkill() {
+  lsof -i TCP | awk '/LISTEN|ESTABLISHED/ {print $2}' | xargs kill -9 
+}
+
+alias inet='lsof -i | grep -E "(LISTEN|ESTABLISHED)"'
